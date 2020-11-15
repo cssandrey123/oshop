@@ -1,0 +1,12 @@
+#navbarDropdown {
+    cursor: pointer;
+}
+li {
+    cursor:pointer;
+}
+.logo {
+    font-size: 34px;
+}
+nav {
+    margin-bottom: 20px;
+}

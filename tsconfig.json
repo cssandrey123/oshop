@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "shared/*": [
+        "src/app/shared/*"
+      ]
+    }
+    // "baseUrl":"./" this was the initial property
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

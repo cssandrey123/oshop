@@ -1,0 +1,37 @@
+<form #f="ngForm" class="material-form" (submit)="saveOrder(f.value)">
+    <mat-form-field class="form-full-width">
+      <mat-label>Name</mat-label>
+      <input type="text" name="name" required #name="ngModel" matInput ngModel placeholder="Your name here">
+      <mat-error *ngIf="name.touched && name.invalid">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="form-full-width">
+        <mat-label>Adress</mat-label>
+        <input name="adress" required #adress="ngModel" matInput ngModel placeholder="Your adress here">
+        <mat-error *ngIf="adress.touched && adress.invalid">
+          Adress is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="form-full-width">
+        <mat-label>City</mat-label>
+        <input name="city" required #city="ngModel" matInput ngModel placeholder="Your city here">
+        <mat-error *ngIf="city.touched && city.invalid">
+          City is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-full-width">
+        <mat-label>Phone number</mat-label>
+        <input type="tel" name="phone" required #phone="ngModel" matInput ngModel placeholder="Your phone here">
+        <mat-error *ngIf="phone.touched && phone.invalid">
+          Phone is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <button 
+    [disabled]="!f.valid"
+    class="btn btn-primary">Place order</button>
+</form>
