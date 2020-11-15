@@ -1,91 +1,88 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { switchMap, take, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {switchMap, take, map, mergeMap, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import { ShoppingCart } from '../models/shopping-cart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingCartService {
-  
+
   constructor(private db: AngularFireDatabase) { }
 
-  async getCart():Promise<Observable<ShoppingCart>> {
-    let cartId = await this.getOrCreateCartId();
-    return this.db.object<ShoppingCart>('/shopping-carts/' + cartId).valueChanges().pipe(
-      map( cart => {
-        return new ShoppingCart(cart.items)
-      })
-      )
+   getCart(): Observable<ShoppingCart> {
+    return this.getOrCreateCartId().pipe(
+      mergeMap(cartId => this.db.object<ShoppingCart>('/shopping-carts/' + cartId).valueChanges()),
+      map(cart => new ShoppingCart(cart.items))
+    );
     }
 
   async addToCart(product) {
-    this.updateItem(product,1);
-  }
-  
-  async removeFromCart(product) {
-    this.updateItem(product,-1);
-  }
-  
-  async clearCart() {
-    let cartId = await this.getOrCreateCartId();
-    this.db.object('/shopping-carts/' + cartId + '/items').remove();
+    this.updateItem(product, 1);
   }
 
-  private create(){
+  async removeFromCart(product) {
+    this.updateItem(product, -1);
+  }
+
+  clearCart() {
+    this.getOrCreateCartId().subscribe(cartId => {
+    this.db.object('/shopping-carts/' + cartId + '/items').remove(); });
+  }
+
+  private create() {
     return this.db.list('/shopping-carts').push({
       dateCreated: new Date().getTime()
-    })
+    });
   }
 
-  private getItem(cartId:string, productId:string) {
-    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
+  private getItem(cartId: string, productId: string) {
+    return of(this.db.object('/shopping-carts/' + cartId + '/items/' + productId));
   }
 
 
-  private async getOrCreateCartId(): Promise <string> {
-    let cartId = localStorage.getItem('cartId');
-    if(!cartId) {
-      let result = await this.create();
-      localStorage.setItem('cartId',result.key);
-      return result.key;
+  private getOrCreateCartId(): Observable<string> {
+    const cartId = localStorage.getItem('cartId');
+    if (!cartId) {
+      const result = this.create();
+      localStorage.setItem('cartId', result.key);
+      return of(result.key);
+    } else {
+      return of(cartId);
     }
-    else {
-      return cartId;
-    }
   }
 
-  private async updateItem(product:any, change: number) {
-    
-    let cartId = await this.getOrCreateCartId();
-    let item$ = this.getItem(cartId,product.key);
-    
-    item$.snapshotChanges().pipe(take(1)).subscribe((item :any)=>{
+  private updateItem(product: any, change: number) {
+    let item$;
+    this.getOrCreateCartId().pipe(
+      take(1),
+      mergeMap(cartId => this.getItem(cartId, product.key)),
+      tap(item => item$ = item),
+      mergeMap(item => item.snapshotChanges()),
+      take(1),
+    ).subscribe((i: any) => {
       // item exists, and we update the quantity
-      if(item.payload.val()){
-        let quantity = item.payload.val().quantity + change;
-        
+      if (i.payload.val()) {
+        const quantity = i.payload.val().quantity + change;
+
         // if quantity became 0, remove the item
-        if(quantity === 0)
+        if (quantity === 0) {
           item$.remove();
-        // otherwise, update quantity
-        else
-          item$.update({ quantity })
-      }
-      // item don't exist, and we create one
-      else{
+        } else {
+          item$.update({ quantity });
+        }
+      } else { // item doesn't exist, we create one
         // Necesarry redefinition of product beacause here we get a product from
-        //  /products in db, not from shopping-cart/items 
-        let productForDb = {
+        //  /products in db, not from shopping-cart/items
+        const productForDb = {
           title: product.data.title,
           imageUrl: product.data.imageUrl,
           price: product.data.price,
-        }
-        item$.set({ ...productForDb , quantity:1 });
+        };
+        item$.set({ ...productForDb , quantity: 1 });
       }
-      
-    })
+    });
   }
 
 

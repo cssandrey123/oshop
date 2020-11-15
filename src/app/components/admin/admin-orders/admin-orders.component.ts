@@ -9,11 +9,18 @@ import { Order } from 'src/app/models/order';
   styleUrls: ['./admin-orders.component.css']
 })
 export class AdminOrdersComponent implements OnInit {
-  orders$: Observable<Order[]>
+  orders$: Observable<Order[]>;
   constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.orders$ = this.orderService.getAllOrders();
   }
 
+  calculateTotalPrice(items) {
+    let price = 0;
+    if (items) {
+      items.forEach(item => price += item.quantity * item.totalPrice);
+    }
+    return price;
+  }
 }

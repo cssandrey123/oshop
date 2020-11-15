@@ -14,7 +14,7 @@ import { ShoppingCart } from 'src/app/models/shopping-cart';
 export class BgNavbarComponent implements OnInit {
   user$;
   public isMenuCollapsed = true;
-  cart$: Observable<ShoppingCart>
+  cart$: Observable<ShoppingCart>;
 
   constructor(private auth:AuthService, private shoppingCartService: ShoppingCartService) { }
 
@@ -24,7 +24,7 @@ export class BgNavbarComponent implements OnInit {
     });
 
     // Displaying the numbers of products from shopping cart in navbar
-    this.cart$ = await this.shoppingCartService.getCart();
+    this.cart$ = this.shoppingCartService.getCart();
   }
 
   logOut(){
