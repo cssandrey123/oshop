@@ -31,7 +31,7 @@ import { AuthGuardService } from './services/auth-guard.service';
     ShoppingModule,
     CoreModule,
 
-    MatInputModule, 
+    MatInputModule,
     BrowserModule,
     MatSortModule,
     MatTableModule,
@@ -41,10 +41,10 @@ import { AuthGuardService } from './services/auth-guard.service';
     NgbModule,
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },
-      { path: 'login', component: LoginComponent },
+      { path: 'login', component: LoginComponent},
     ]),
     BrowserAnimationsModule,
-  
+
   ],
   providers: [
     AuthGuardService,
