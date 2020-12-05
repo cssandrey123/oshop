@@ -25,8 +25,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/login-oshop").permitAll()
                 .antMatchers(HttpMethod.GET, "**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login();
     }
 }
