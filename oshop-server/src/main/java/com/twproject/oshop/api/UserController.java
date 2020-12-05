@@ -3,6 +3,7 @@ package com.twproject.oshop.api;
 import com.twproject.oshop.exceptions.NotAllowedException;
 import com.twproject.oshop.model.User;
 import com.twproject.oshop.service.UserService;
+import com.twproject.oshop.util.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,10 +60,14 @@ public class UserController {
     }
 
 
-    @PostMapping("/users")
+    @PostMapping("/register")
     public ResponseEntity createUser(@RequestBody User user) {
+        String rawPassword = user.getPassword();
+        String encoded = new CustomPasswordEncoder().encode(rawPassword);
+        user.setPassword(encoded);
         user.setRole("DEFAULT");
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        User createdUser = userService.createUser(user);
+        return new ResponseEntity<>(createdUser, HttpStatus.OK);
     }
 
 }
