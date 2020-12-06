@@ -56,7 +56,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                     .oauth2Login().successHandler(this::successHandler);
     }
 
-    private void successHandler(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
+    private ResponseEntity successHandler(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         OAuth2AuthenticationToken oauthToken =
                 (OAuth2AuthenticationToken) authentication;
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(oauthToken.getAuthorizedClientRegistrationId(), oauthToken.getName());
@@ -77,9 +77,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             googleUser.setEmail((String) userAttributes.getOrDefault("email", null));
             String username = userAttributes.getOrDefault("name",null).toString().replace(" ","").toLowerCase();
             googleUser.setUsername(username);
-            userRepository.save(googleUser);
-
+            if(!userRepository.findByUsername(username).isPresent()) {
+                userRepository.save(googleUser);
+            }
+            return new ResponseEntity<>(googleUser, HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 }
