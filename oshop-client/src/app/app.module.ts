@@ -19,6 +19,9 @@ import { CoreModule } from './modules/core/core.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { ShoppingModule } from './modules/shopping/shopping.module';
 import { AuthGuardService } from './services/auth-guard.service';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
@@ -27,10 +30,12 @@ import { AuthGuardService } from './services/auth-guard.service';
   ],
   imports: [
     SharedModule,
+    MatProgressSpinnerModule,
     AdminModule,
     ShoppingModule,
     CoreModule,
-
+    ReactiveFormsModule,
+    FormsModule,
     MatInputModule,
     BrowserModule,
     MatSortModule,

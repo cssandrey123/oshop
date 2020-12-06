@@ -1,1 +1,133 @@
-<button (click)="login()" class="btn btn-primary">Log in with google</button>
+
+<div class="container align-content-center">
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <mat-spinner diameter="50" class="oshop-spinner mb-2" mode="indeterminate"></mat-spinner>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 mx-auto">
+      <div id="first">
+        <div class="login-form form ">
+          <div class="logo mb-3">
+            <div class="col-md-12 text-center">
+              <h1>{{formState}}</h1>
+            </div>
+          </div>
+
+          <form [formGroup]="loginForm" *ngIf="formState == 'Login'">
+            <div class="form-group">
+              <label>Username</label>
+              <input formControlName="username" type="text" name="username"  class="form-control" id="username"  placeholder="Enter username">
+              <div *ngIf="login_username_control.invalid &&  login_username_control.touched"
+                   class="alert alert-danger">
+                <div *ngIf="login_username_control.errors.required">
+                  Name is required.
+                </div>
+                <div *ngIf="login_username_control.errors.minlength">
+                  Name must be at least 6 characters long.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input formControlName="password" type="password" name="password" class="form-control"  placeholder="Enter Password">
+              <div *ngIf="login_password_control.invalid &&  login_password_control.touched"
+                   class="alert alert-danger">
+                <div *ngIf="login_password_control.errors.required">
+                  Password is required.
+                </div>
+                <div *ngIf="login_password_control.errors.minlength">
+                  Password must be at least 6 characters long.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 text-center ">
+              <button type="button" [disabled]="!loginForm.valid" (click)="logIn()" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+            </div>
+            <div class="col-md-12 ">
+              <div class="login-or">
+                <hr class="hr-or">
+                <span class="span-or">or</span>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <p class="text-center">
+                <button (click)="loginWithGoogle()" type="button" class="google btn mybtn badge-warning"><i class="fa fa-google-plus">
+                </i> Signup using Google
+                </button>
+              </p>
+            </div>
+            <div class="form-group">
+              <p class="text-center">Don't have account? <a (click)="formState='Register'" href="javascript:void(0);">Sign up here</a></p>
+            </div>
+          </form>
+
+          <form [formGroup]="registerForm" *ngIf="formState == 'Register'">
+            <div class="form-group">
+              <label>Email</label>
+              <input formControlName="email" type="email" name="email"  class="form-control"  placeholder="Enter email">
+              <div *ngIf="email_control.invalid &&  email_control.touched"
+                   class="alert alert-danger">
+                <div *ngIf="email_control.errors.required">
+                  Email is required.
+                </div>
+                <div *ngIf="email_control.errors.email">
+                  Invalid email.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Username</label>
+              <input formControlName="username" type="text" name="username"  class="form-control"  placeholder="Enter username">
+              <div *ngIf="register_username_control.invalid &&  register_username_control.touched"
+                   class="alert alert-danger">
+                <div *ngIf="register_username_control.errors.required">
+                  Name is required.
+                </div>
+                <div *ngIf="register_username_control.errors.minlength">
+                  Name must be at least 6 characters long.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+              <input formControlName="password" type="password" name="password" class="form-control" placeholder="Enter Password">
+
+              <div *ngIf="register_password_control.invalid &&  register_password_control.touched"
+                   class="alert alert-danger">
+                <div *ngIf="register_password_control.errors.required">
+                  Password is required.
+                </div>
+                <div *ngIf="register_password_control.errors.minlength">
+                  Password must be at least 6 characters long.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 text-center ">
+              <button type="button" (click)="register()" [disabled]="!registerForm.valid"  class=" btn btn-block mybtn btn-primary tx-tfm">Register</button>
+            </div>
+            <div class="col-md-12 ">
+              <div class="login-or">
+                <hr class="hr-or">
+                <span class="span-or">or</span>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <p class="text-center">
+                <button (click)="loginWithGoogle()" type="button" class="google btn mybtn badge-warning"><i class="fa fa-google-plus">
+                </i> Signup using Google
+                </button>
+              </p>
+            </div>
+            <div class="form-group">
+              <p class="text-center">Already have account? <a (click)="formState='Login'" href="javascript:void(0);">Sign in here</a></p>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

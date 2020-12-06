@@ -6,6 +6,8 @@ import { LoginComponent } from 'src/app/components/login/login.component';
 import { RouterModule } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 
@@ -14,14 +16,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BgNavbarComponent,
     HomeComponent,
     LoginComponent,
-    
+
   ],
-  imports: [
-    MatIconModule,
-    NgbModule,
-    CommonModule,
-    RouterModule.forChild([])
-  ],
+    imports: [
+        MatIconModule,
+        NgbModule,
+        CommonModule,
+        RouterModule.forChild([]),
+        ReactiveFormsModule,
+        MatProgressSpinnerModule
+    ],
   exports: [
     BgNavbarComponent
   ]
