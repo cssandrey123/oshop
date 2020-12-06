@@ -32,9 +32,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final AuthenticationManager authenticationManager;
     private final TokenStore tokenStore;
 
-    @Value("oshop-client")
+    @Value("156766490498-ohu9etd14coubkgg29kohchte7417dug.apps.googleusercontent.com")
     private String clientId;
-    @Value("secret")
+    @Value("KJdwtN_BpffChGG5b5FvEB2h")
     private String secret;
     @Value("oshop")
     private String resourceId;
@@ -74,7 +74,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager)
                 .tokenStore(tokenStore)
                 .tokenServices(tokenServices())
-                .pathMapping("/oauth/token", "/login");
+                .pathMapping("/oauth_login","/login")
+                .pathMapping("/oauth/token", "/login-oshop");
     }
 
     @Override
