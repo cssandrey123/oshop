@@ -6,7 +6,7 @@
       <button  class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="isMenuCollapsed = !isMenuCollapsed">
         <span class="navbar-toggler-icon"></span>
       </button>
-    
+
       <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto ">
           <li class="nav-item active">
@@ -17,20 +17,22 @@
               Shopping Cart
               <span *ngIf = "cart$ | async as cart" class="badge badge-pill badge-warning">
                 {{cart.totalItemsCount}}
-              </span> 
+              </span>
             </a>
           </li>
         </ul>
         <ul class="navbar-nav">
-          <li ngbDropdown *ngIf="user$; else userLogin" class="nav-item dropdown">
+          <li ngbDropdown *ngIf="isAuthenticated(); else userLogin" class="nav-item dropdown">
             <a ngbDropdownToggle  class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{user$.name}}
+                <span *ngIf="isCurrentUserPresent()">{{getCurrentUser().username}}</span>
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" [routerLink]="['my','orders']">My oriders</a>
-              <ng-container *ngIf="user$.isAdmin">
+              <a class="dropdown-item" [routerLink]="['my','orders']">My orders</a>
+              <ng-container *ngIf="isAuthenticated()">
+                <div *ngIf="isCurrentUserPresent() && getCurrentUser().role === 'ADMIN'">
                 <a class="dropdown-item" [routerLink]="['admin','orders']">Manage Orders</a>
                 <a class="dropdown-item" [routerLink]="['admin','products']">Manage Produtcts</a>
+                </div>
               </ng-container>
               <a (click)="logOut()" class="dropdown-item">Log Out</a>
             </div>

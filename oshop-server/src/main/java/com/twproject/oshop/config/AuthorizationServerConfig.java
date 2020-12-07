@@ -23,6 +23,10 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableAuthorizationServer
@@ -70,8 +74,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer configurer) {
-        configurer
-                .authenticationManager(authenticationManager)
+        configurer.addInterceptor(new HandlerInterceptorAdapter() {
+            @Override
+            public boolean preHandle(HttpServletRequest hsr, HttpServletResponse rs, Object o) throws Exception {
+                rs.setHeader("Access-Control-Allow-Origin", "*");
+                rs.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+                rs.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token");
+                return true;
+            }
+        }
+        )       .authenticationManager(authenticationManager)
                 .tokenStore(tokenStore)
                 .tokenServices(tokenServices())
                 .pathMapping("/oauth_login","/login")
@@ -100,9 +112,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.addExposedHeader("Filename");
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean<>(new CorsFilter(source));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);

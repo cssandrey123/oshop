@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,6 +24,12 @@ public class UserController {
        this.userService = userService;
     }
 
+    @GetMapping("/existsUserByUsername/{username}")
+    public ResponseEntity existsUserByUsername(@PathVariable String username) {
+        Long id = userService.getIdByUsername(username);
+         Optional<User> found = Optional.ofNullable(userService.getUser(id));
+         return new ResponseEntity(found.isPresent(), HttpStatus.OK);
+    }
     @GetMapping("/user")
     public ResponseEntity getCurrentUser(Authentication authentication)
     {

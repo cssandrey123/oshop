@@ -49,11 +49,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/login-oshop").permitAll()
-                // .antMatchers(HttpMethod.GET, "**").permitAll()
+                    .antMatchers("/googleUserInfo").permitAll()
+                    .antMatchers("/register").permitAll()
+                    .antMatchers("/existsUserByUsername/**").permitAll()
+                 .antMatchers(HttpMethod.GET, "**").permitAll()
                     .antMatchers(HttpMethod.OPTIONS, "**").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    .oauth2Login().successHandler(this::successHandler);
+                    .oauth2Login();
     }
 
     private ResponseEntity successHandler(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {

@@ -21,6 +21,8 @@ import { ShoppingModule } from './modules/shopping/shopping.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {RestService} from "./services/rest.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -44,6 +46,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },
       { path: 'login', component: LoginComponent},
@@ -52,7 +55,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
   ],
   providers: [
-    AuthGuardService,
+    AuthGuardService, RestService
   ],
   bootstrap: [AppComponent]
 })

@@ -4,14 +4,26 @@ import * as firebase from 'firebase'
 import { AppUser } from '../models/app-user';
 import { Observable } from 'rxjs';
 import {take} from "rxjs/operators";
+import {RestService} from "./rest.service";
+import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService{
+export class UserService {
+  currentUser: User = null;
 
-  constructor(private db:AngularFireDatabase) { }
+  constructor(private db:AngularFireDatabase, private restService: RestService) { }
 
+  setUser(): void {
+    this.restService.read<User>('/user').subscribe(user => this.currentUser = user);
+  }
+  getCurrentUser(): User {
+    return this.currentUser;
+  }
+  clearUser() {
+    this.currentUser = null;
+  }
 
   saveUser(user: firebase.User) {
     this.getUser(user.uid).pipe(
