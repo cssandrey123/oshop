@@ -19,7 +19,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) throws MalformedURLException, UnsupportedEncodingException {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
         productRepository.deleteAll();
         Product spinach = new Product();

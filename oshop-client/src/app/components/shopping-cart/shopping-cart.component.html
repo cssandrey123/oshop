@@ -6,7 +6,7 @@
         <h2>
             You have {{ cart.totalItemsCount }} items in your shopping cart
         </h2>
-    
+
         <table class="table">
             <thead>
                 <tr>
@@ -19,7 +19,7 @@
             <tbody>
                 <tr *ngFor = "let item of cart.items">
                     <td>
-                        <div class="thumbmail" [style.backgroundImage]="'url(' + item.imageUrl + ')'" alt=""> </div>
+                        <div class="thumbmail" [style.backgroundImage]="'url(' + fromHexToURL(item.imageUrlInHex) + ')'" alt=""> </div>
                     </td>
                     <td>
                         {{item.title}}
@@ -43,20 +43,20 @@
         </table>
         <div class="row">
             <div class="col">
-                <a 
+                <a
                 *ngIf = "cart.items.length"
                 [routerLink] = "['/check-out']"
                 class="btn btn-primary">Check Out</a>
             </div>
             <div class="col d-flex justify-content-end">
                 <button
-                *ngIf = "cart.items.length" 
+                *ngIf = "cart.items.length"
                 (click)="clearCart()"
                 class="btn btn-danger">Clear Shopping Cart</button>
             </div>
         </div>
-        
-       
-    </div>  
+
+
+    </div>
 </div>
 
