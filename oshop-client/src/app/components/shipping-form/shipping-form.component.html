@@ -6,7 +6,6 @@
         Name is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-    
     <mat-form-field class="form-full-width">
         <mat-label>Adress</mat-label>
         <input name="adress" required #adress="ngModel" matInput ngModel placeholder="Your adress here">
@@ -14,7 +13,7 @@
           Adress is <strong>required</strong>
         </mat-error>
     </mat-form-field>
-    
+
     <mat-form-field class="form-full-width">
         <mat-label>City</mat-label>
         <input name="city" required #city="ngModel" matInput ngModel placeholder="Your city here">
@@ -31,7 +30,7 @@
         </mat-error>
     </mat-form-field>
 
-    <button 
+    <button
     [disabled]="!f.valid"
     class="btn btn-primary">Place order</button>
 </form>

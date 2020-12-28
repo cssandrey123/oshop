@@ -1,5 +1,5 @@
 export interface Product {
-    key:string,
+    key: string,
     data: {
         category:string,
         imageUrl:string,

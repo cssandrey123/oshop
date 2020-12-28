@@ -10,7 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,6 +39,15 @@ public class ProductController {
             return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
+    @GetMapping("/products/categories")
+    public ResponseEntity getProductsCategories() {
+        List<Product> productList = productService.getProducts();
+        List<String> categories = new ArrayList<>();
+        productList.forEach(product -> {categories.add(product.getCategory());});
+        Set<String> categoriesSet = new HashSet<>(categories);
+        return new ResponseEntity<>(categoriesSet, HttpStatus.OK);
+    }
+
     @PostMapping("/products")
     public ResponseEntity createProduct(Product product) {
         this.productService.createProduct(product);
@@ -48,7 +60,7 @@ public class ProductController {
             Product oldProduct = productService.getProduct(productId);
             oldProduct.setTitle(newProduct.getTitle());
             oldProduct.setPrice(newProduct.getPrice());
-            oldProduct.setImageUrl(newProduct.getImageUrl());
+            oldProduct.setImageUrlInHex(newProduct.getImageUrlInHex());
             oldProduct.setCategory(newProduct.getCategory());
             return new ResponseEntity<>(oldProduct, HttpStatus.OK);
         } else {

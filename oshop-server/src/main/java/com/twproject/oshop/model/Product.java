@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.net.URI;
+import java.net.URL;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +29,8 @@ public class Product {
     private String category;
 
     @Column(name = "PRICE")
-    private int price;
+    private double price;
 
-    @Column(name = "IMAGE_URL")
-    private URI imageUrl;
+    @Column(name = "IMAGE_URL_HEX")
+    private String imageUrlInHex;
 }
