@@ -49,20 +49,25 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity createProduct(Product product) {
-        this.productService.createProduct(product);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public ResponseEntity createProduct(@RequestBody Product product, Authentication authentication) {
+        if (hasAuthority(authentication, "ADMIN")) {
+            this.productService.createProduct(product);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            throw new NotAllowedException();
+        }
+    }
+
+    @GetMapping("/products/{productId}")
+    public ResponseEntity getProduct(@PathVariable("productId") Long productId) {
+        return new ResponseEntity<Product>(this.productService.getProduct(productId), HttpStatus.OK);
     }
 
     @PutMapping("/products/{productId}")
-    public ResponseEntity editProduct(@PathVariable("productId") Long productId, Product newProduct, Authentication authentication) {
+    public ResponseEntity editProduct(@PathVariable("productId") Long productId, @RequestBody Product newProduct, Authentication authentication) {
         if (hasAuthority(authentication, "ADMIN")) {
-            Product oldProduct = productService.getProduct(productId);
-            oldProduct.setTitle(newProduct.getTitle());
-            oldProduct.setPrice(newProduct.getPrice());
-            oldProduct.setImageUrlInHex(newProduct.getImageUrlInHex());
-            oldProduct.setCategory(newProduct.getCategory());
-            return new ResponseEntity<>(oldProduct, HttpStatus.OK);
+            Product editedProduct = productService.editProduct(productId, newProduct);
+            return new ResponseEntity<>(editedProduct, HttpStatus.OK);
         } else {
             throw new NotAllowedException();
         }

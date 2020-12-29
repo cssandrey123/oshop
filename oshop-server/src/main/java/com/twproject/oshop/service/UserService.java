@@ -3,6 +3,7 @@ package com.twproject.oshop.service;
 import com.twproject.oshop.exceptions.NotFoundException;
 import com.twproject.oshop.model.User;
 import com.twproject.oshop.persistence.UserRepository;
+import com.twproject.oshop.util.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,16 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
-
+    private CustomPasswordEncoder passwordEncoder;
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+       /* User admin = new User();
+        admin.setUsername("adminAcc");
+        admin.setEmail("admin@admin");
+        admin.setRole("ADMIN");
+        admin.setPassword(new CustomPasswordEncoder().encode("admin123"));
+        userRepository.save(admin);*/
     }
 
 

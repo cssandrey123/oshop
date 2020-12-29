@@ -21,7 +21,7 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        productRepository.deleteAll();
+       /* productRepository.deleteAll();
         Product spinach = new Product();
         spinach.setPrice(4);
         spinach.setTitle("Spinach");
@@ -51,7 +51,7 @@ public class ProductService {
         banana.setPrice(1.25);
         banana.setTitle("Banana");
         banana.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bananas.jpg/1024px-Bananas.jpg" .getBytes(StandardCharsets.UTF_8))));
-        productRepository.save(banana);
+        productRepository.save(banana);*/
     }
 
     private Product fetchProduct(Long id) {
@@ -81,6 +81,8 @@ public class ProductService {
         foundProduct.setImageUrlInHex(product.getImageUrlInHex());
         foundProduct.setPrice(product.getPrice());
         foundProduct.setTitle(product.getTitle());
+        foundProduct.setId(productId);
+        productRepository.save(foundProduct);
         return foundProduct;
 
     }
