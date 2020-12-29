@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import {switchMap, take, map, mergeMap, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import { ShoppingCart } from '../models/shopping-cart';
+import {ProductNew} from "../models/product-new.model";
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +54,11 @@ export class ShoppingCartService {
     }
   }
 
-  private updateItem(product: any, change: number) {
+  private updateItem(product: ProductNew, change: number) {
     let item$;
     this.getOrCreateCartId().pipe(
       take(1),
-      mergeMap(cartId => this.getItem(cartId, product.key)),
+      mergeMap(cartId => this.getItem(cartId, product.id)),
       tap(item => item$ = item),
       mergeMap(item => item.snapshotChanges()),
       take(1),
@@ -75,10 +76,12 @@ export class ShoppingCartService {
       } else { // item doesn't exist, we create one
         // Necesarry redefinition of product beacause here we get a product from
         //  /products in db, not from shopping-cart/items
-        const productForDb = {
-          title: product.data.title,
-          imageUrl: product.data.imageUrl,
-          price: product.data.price,
+        const productForDb: ProductNew = {
+          id: product.id,
+          title: product.title,
+          imageUrlInHex: product.imageUrlInHex,
+          price: product.price,
+          category: product.category
         };
         item$.set({ ...productForDb , quantity: 1 });
       }

@@ -84,6 +84,7 @@ export class RestService {
   }
 
   public create<T>(url: string, object: T): Observable<T> {
+    console.warn(object);
     return this.http.post<T>(this.baseUrl + url, object, {headers: this.headers});
   }
 
