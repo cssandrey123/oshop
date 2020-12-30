@@ -1,22 +1,42 @@
 import { ShoppingCart } from './shopping-cart';
-
+export interface Shipping {
+  name: string;
+  phoneNumber: string;
+  city: string;
+  address: string;
+}
+export class Item {
+  productTitle: string;
+  productPrice: number;
+  quantity: number;
+  totalPrice: number;
+}
 export class Order {
+    shippingAddress: string;
+    shippingName: string;
+    shippingCity: string;
+    phoneNumber: string;
+    username: string;
+    userId: string;
     datePlaced: string;
-    items: any[];
+    items: Item[];
 
-    constructor(public userId:string, public shipping: any, shoppingCart: ShoppingCart){
-        this.datePlaced = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-
+    constructor(public id: string, public name: string, public shipping: Shipping, shoppingCart: ShoppingCart) {
+        this.datePlaced = new Date().toJSON().slice(0, 10);
+        this.userId = id;
+        this.username = name;
         this.items = shoppingCart.items.map(item => {
-            return {
-              product: {
-                title: item.title,
-                imageUrl: item.imageUrlInHex,
-                price: item.price
-              },
+            const newItem: Item = {
+              productPrice: item.price,
+              productTitle: item.title,
               quantity: item.quantity,
               totalPrice: item.totalPrice
             };
+            return newItem;
           });
+        this.shippingAddress = shipping.address;
+        this.shippingName = shipping.name;
+        this.phoneNumber = shipping.phoneNumber;
+        this.shippingCity = shipping.city;
     }
 }

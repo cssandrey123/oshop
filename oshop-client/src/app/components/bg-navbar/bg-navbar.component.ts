@@ -17,21 +17,24 @@ import {UserService} from "../../services/user.service";
 export class BgNavbarComponent implements OnInit {
   public isMenuCollapsed = true;
   cart$: Observable<ShoppingCart>;
+  currentUser: User;
   constructor(private auth: AuthService, private shoppingCartService: ShoppingCartService, private restService: RestService, private userService: UserService) { }
 
   ngOnInit()  {
     // Displaying the numbers of products from shopping cart in navbar
     this.cart$ = this.shoppingCartService.getCart();
+    this.getCurrentUser().subscribe(user => this.currentUser = {...user});
   }
-  isCurrentUserPresent() {
-    return this.userService.currentUser !== null;
+  async isCurrentUserPresent() {
+   return this.userService.currentUser !== null;
   }
-  getCurrentUser(): User {
-    return this.userService.currentUser;
-  }
+
 
   isAuthenticated() {
    return this.restService.isAuthenticated();
+  }
+  getCurrentUser() {
+    return this.userService.getCurrentUser();
   }
 
   logOut() {

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase'
 import { AppUser } from '../models/app-user';
-import { Observable } from 'rxjs';
-import {take} from "rxjs/operators";
+import {Observable, of} from 'rxjs';
+import {mergeMap, take} from "rxjs/operators";
 import {RestService} from "./rest.service";
 import {User} from "../models/user.model";
 
@@ -13,34 +13,26 @@ import {User} from "../models/user.model";
 export class UserService {
   currentUser: User = null;
 
-  constructor(private db:AngularFireDatabase, private restService: RestService) { }
+  constructor(private db:AngularFireDatabase, private restService: RestService) {
+   // this.setUser();
+  }
 
-  setUser(): void {
+  setUser() {
     this.restService.read<User>('/user').subscribe(user => this.currentUser = user);
   }
-  getCurrentUser(): User {
-    return this.currentUser;
+   getCurrentUser() {
+     return  of(this.currentUser !== null).pipe(
+        mergeMap(bool => {
+          if (bool === true) {
+            return of(this.currentUser);
+        } else {
+            return this.restService.read<User>('/user');
+          }
+        }));
   }
   clearUser() {
     this.currentUser = null;
   }
-
-  saveUser(user: firebase.User) {
-    this.getUser(user.uid).pipe(
-      take(1)
-    ).subscribe((existingUser:AppUser) => {
-      if(!existingUser) {
-        this.db.object('/users/' + user.uid).update({
-          name: user.displayName,
-          email: user.email,
-          isAdmin: false
-        });
-      }
-    });
-
-
-  }
-
   getUser(uid: string): Observable<AppUser>{
     return this.db.object<AppUser>('/users/' + uid).valueChanges();
   }

@@ -17,8 +17,7 @@ export class MyOrdersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.authService.getCurrentUser().subscribe(user => {
       this.orders$ = this.orderService.getOrdersByUser(user.uid);
-    })
-    
+    });
   }
 
   ngOnDestroy() {

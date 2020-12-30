@@ -1,6 +1,7 @@
 package com.twproject.oshop.api;
 
 import com.twproject.oshop.exceptions.NotAllowedException;
+import com.twproject.oshop.exceptions.NotFoundException;
 import com.twproject.oshop.model.User;
 import com.twproject.oshop.service.UserService;
 import com.twproject.oshop.util.CustomPasswordEncoder;
@@ -30,14 +31,21 @@ public class UserController {
          Optional<User> found = Optional.ofNullable(userService.getUser(id));
          return new ResponseEntity(found.isPresent(), HttpStatus.OK);
     }
+
     @GetMapping("/user")
     public ResponseEntity getCurrentUser(Authentication authentication)
     {
         UserService service=this.userService;
-        String currentUserName=authentication.getName();
-        User user=service.getUser(service.getIdByUsername(currentUserName));
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        if (authentication.isAuthenticated()) {
+            String currentUserName = authentication.getName();
+            User user = service.getUser(service.getIdByUsername(currentUserName));
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        else {
+            throw new NotFoundException();
+        }
     }
+
     @GetMapping("/users/{userId}")
     public ResponseEntity getUser(@PathVariable Long userId, Authentication authentication) {
         if(hasAuthority(authentication, "ADMIN") || (userService.getIdByUsername(authentication.getName()).equals(userId))) {
