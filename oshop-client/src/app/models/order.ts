@@ -21,7 +21,8 @@ export class Order {
     datePlaced: string;
     items: Item[];
 
-    constructor(public id: string, public name: string, public shipping: Shipping, shoppingCart: ShoppingCart) {
+    constructor() {}
+    createOrder(id: string, name: string, shipping: Shipping, shoppingCart: ShoppingCart) {
         this.datePlaced = new Date().toJSON().slice(0, 10);
         this.userId = id;
         this.username = name;

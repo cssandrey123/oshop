@@ -90,7 +90,6 @@ export class LoginComponent implements OnInit {
       mergeMap(() => this.auth.loginWithCredentials(this.userWithGoogleSignIn.username, this.userWithGoogleSignIn.password)),
     ).subscribe(res => {
       this.router.navigate(['./']);
-      this.userService.setUser();
     });
 
   }
@@ -118,7 +117,6 @@ export class LoginComponent implements OnInit {
       this.loading = false;
       console.log(result);
       this.router.navigate(['./']);
-      this.userService.setUser();
     }, error => {
       this.loading = false;
       //  TODO handle login errors here

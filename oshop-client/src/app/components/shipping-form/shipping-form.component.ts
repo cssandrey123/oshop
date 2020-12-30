@@ -22,11 +22,6 @@ export class ShippingFormComponent implements OnInit {
     name: ''
   };
   userId: string;
-  currentUser: User = {
-    username: '',
-    password: '',
-    email: ''
-  };
   @Input('cart') cart: ShoppingCart;
 
   constructor(
@@ -37,16 +32,16 @@ export class ShippingFormComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-  /*  if (this.restService.isAuthenticated()) {
-      this.userService.getCurrentUser().then(user => this.currentUser = user);
-    }*/
   }
 
   async saveOrder(shipping) {
-    const order = new Order(this.currentUser.id, this.currentUser.username, this.shipping, this.cart);
-   // const orderStatus = await this.orderService.placeOrder(order);
-    this.restService.create<Order>('/place-order', order).subscribe(res => {
-      this.router.navigate(['/order-success', res.username]);
+    const order = new Order();
+    console.warn(order);
+    this.userService.getCurrentUser().subscribe(user => {
+      order.createOrder(user.id, user.username, this.shipping, this.cart);
+      this.restService.create<Order>('/place-order', order).subscribe(res => {
+        //this.router.navigate(['/order-success', res.username]);
+      });
     });
   }
 }

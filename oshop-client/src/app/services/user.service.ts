@@ -21,14 +21,7 @@ export class UserService {
     this.restService.read<User>('/user').subscribe(user => this.currentUser = user);
   }
    getCurrentUser() {
-     return  of(this.currentUser !== null).pipe(
-        mergeMap(bool => {
-          if (bool === true) {
-            return of(this.currentUser);
-        } else {
-            return this.restService.read<User>('/user');
-          }
-        }));
+     return this.restService.read<User>('/user');
   }
   clearUser() {
     this.currentUser = null;

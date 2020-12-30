@@ -1,8 +1,10 @@
 package com.twproject.oshop.api;
 
+import com.twproject.oshop.exceptions.NotAllowedException;
 import com.twproject.oshop.model.Order;
 import com.twproject.oshop.model.OrderDTO;
 import com.twproject.oshop.model.ShoppingCartItem;
+import com.twproject.oshop.model.ShoppingCartItemDTO;
 import com.twproject.oshop.service.OrderService;
 import com.twproject.oshop.service.ProductService;
 import com.twproject.oshop.service.ShoppingCartItemService;
@@ -12,11 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,5 +70,36 @@ public class OrderController {
             this.shoppingCartItemService.createShoppingCartItem(cartItem);
         });
         return new ResponseEntity<OrderDTO>(orderDTO,HttpStatus.OK);
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity getAllOrders(Authentication authentication) {
+        if (hasAuthority(authentication, "ADMIN")) {
+            List<OrderDTO> orderDTOS = new ArrayList<>();
+            orderService.getOrders().forEach(order -> {
+                OrderDTO o = new OrderDTO();
+                o.setShippingName(order.getShippingName());
+                o.setDatePlaced(order.getPlacedDate());
+                o.setPhoneNumber(order.getPhoneNumber());
+                o.setShippingCity(order.getShippingCity());
+                o.setShippingAddress(order.getShippingAddress());
+                o.setUserId(order.getUserId());
+                o.setUsername(userService.getUser(order.getUserId()).getUsername());
+                List<ShoppingCartItemDTO> itemDTOS = new ArrayList<>();
+                shoppingCartItemService.getAllByOrderId(order.getId()).forEach(item -> {
+                    ShoppingCartItemDTO itemDTO = new ShoppingCartItemDTO();
+                    itemDTO.setProductTitle(productService.getProduct(item.getProductId()).getTitle());
+                    itemDTO.setProductPrice(productService.getProduct(item.getProductId()).getPrice());
+                    itemDTO.setQuantity(item.getQuantity());
+                    itemDTO.setTotalPrice(itemDTO.getQuantity() * itemDTO.getProductPrice());
+                    itemDTOS.add(itemDTO);
+                });
+                o.setItems(itemDTOS);
+                orderDTOS.add(o);
+            });
+            return new ResponseEntity<List<OrderDTO>>(orderDTOS, HttpStatus.OK);
+        } else {
+            throw new NotAllowedException();
+        }
     }
 }
