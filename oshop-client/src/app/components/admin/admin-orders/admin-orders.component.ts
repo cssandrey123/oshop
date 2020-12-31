@@ -23,4 +23,7 @@ export class AdminOrdersComponent implements OnInit {
     }
     return price;
   }
+  toDate(date) {
+   return new Date(date);
+  }
 }

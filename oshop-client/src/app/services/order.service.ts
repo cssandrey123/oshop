@@ -23,8 +23,4 @@ export class OrderService {
   getAllOrders(): Observable<Order[]> {
     return this.restService.read<Order[]>('/orders');
   }
-
-  getOrdersByUser(userId: string) {
-    return this.db.list<Order>('/orders',ref => ref.orderByChild("userId").equalTo(userId)).valueChanges();
-  }
 }

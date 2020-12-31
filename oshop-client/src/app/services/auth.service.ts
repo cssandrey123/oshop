@@ -43,8 +43,7 @@ export class AuthService {
   }
 
   logOut() {
-    this.restService.logout().subscribe(res =>
-    this.userService.clearUser());
+    this.restService.logout();
   }
 
   getUser() {

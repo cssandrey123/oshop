@@ -10,17 +10,25 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./my-orders.component.css']
 })
 export class MyOrdersComponent implements OnInit, OnDestroy {
-  orders$: Observable<Order[]>;
+  orders$: Observable<Order[]> =  this.orderService.getAllOrders();
   subscription: Subscription;
   constructor(private orderService: OrderService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.subscription = this.authService.getCurrentUser().subscribe(user => {
-      this.orders$ = this.orderService.getOrdersByUser(user.uid);
-    });
+
   }
 
+  calculateTotalPrice(items) {
+    let price = 0;
+    if (items) {
+      items.forEach(item => price += item.quantity * item.totalPrice);
+    }
+    return price;
+  }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+  }
+  toDate(date) {
+    const dateString = new Date(date);
+    return dateString;
   }
 }

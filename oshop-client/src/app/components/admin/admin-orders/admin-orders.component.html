@@ -14,7 +14,7 @@
       <tr *ngFor="let order of orders$ | async;let i = index">
         <th scope="row">{{i+1}}</th>
         <td><span style="font-weight: 500">{{order.shippingName}}</span></td>
-        <td>{{order.datePlaced}}</td>
+        <td>{{toDate(order.datePlaced).toDateString()}}</td>
         <td>
           <div *ngFor="let item of order.items">{{item.productTitle}} x{{item.quantity}}</div>
         </td>

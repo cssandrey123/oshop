@@ -35,6 +35,13 @@ public class OrderService {
         orderRepository.findAll().iterator().forEachRemaining(orders::add);
         return orders;
     }
+    public List<Order> getOrdersByUserId(Long userId) {
+        if (orderRepository.findAllByUserId(userId).isPresent()) {
+            return orderRepository.findAllByUserId(userId).get();
+        } else {
+            return new ArrayList<Order>();
+        }
+    }
 
     public Order createOrder(Order order) {
         return orderRepository.save(order);

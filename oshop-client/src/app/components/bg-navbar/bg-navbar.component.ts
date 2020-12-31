@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { AppUser } from 'src/app/models/app-user';
@@ -8,14 +8,14 @@ import { ShoppingCart } from 'src/app/models/shopping-cart';
 import {RestService} from "../../services/rest.service";
 import {User} from "../../models/user.model";
 import {UserService} from "../../services/user.service";
-import {map, switchMap} from "rxjs/operators";
+import {map, switchMap, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-bg-navbar',
   templateUrl: './bg-navbar.component.html',
   styleUrls: ['./bg-navbar.component.css']
 })
-export class BgNavbarComponent implements OnInit {
+export class BgNavbarComponent implements OnInit, AfterViewInit {
   public isMenuCollapsed = true;
   cart$: Observable<ShoppingCart>;
   currentUser: User;
@@ -26,16 +26,11 @@ export class BgNavbarComponent implements OnInit {
   ngOnInit()  {
     // Displaying the numbers of products from shopping cart in navbar
     this.cart$ = this.shoppingCartService.getCart();
-    this.user$ = of(this.isAuthenticated()).pipe(
-      switchMap(isAuthenticated => {
-        if (isAuthenticated === true) {
-          return this.userService.getCurrentUser();
-        } else {
-          return of(null);
-        }
-      })
-    );
   }
+  ngAfterViewInit(): void {
+   this.user$ = this.userService.user$;
+  }
+
   async isCurrentUserPresent() {
    return this.userService.currentUser !== null;
   }
@@ -43,9 +38,6 @@ export class BgNavbarComponent implements OnInit {
 
   isAuthenticated() {
    return this.restService.isAuthenticated();
-  }
-  getCurrentUser() {
-    return this.userService.getCurrentUser();
   }
 
   logOut() {
