@@ -18,11 +18,11 @@
     <td><span style="font-weight: 500">{{order.shippingName}}</span></td>
     <td>{{toDate(order.datePlaced).toDateString()}}</td>
     <td>
-      <div *ngFor="let item of order.items">{{item.productTitle}} x{{item.quantity}}</div>
+      <div *ngFor="let item of order.items">{{item.productTitle}} x {{item.quantity}}</div>
     </td>
     <td>{{calculateTotalPrice(order.items)}}$</td>
     <td>{{order.status}}</td>
-    <td>{{order.expectedDate}}</td>
+    <td><span *ngIf="order.status !== 'DELIVERED'">{{order.expectedDate}}</span></td>
   </tr>
   </tbody>
 </table>

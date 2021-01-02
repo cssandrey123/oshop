@@ -15,7 +15,7 @@ export class AdminOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.orders$ = this.orderService.getAllOrders().pipe(
-      tap(orders => orders.forEach(order => order.expectedDate = this.getExpectedDeliveryDate(order.datePlaced).toDateString()))
+      tap(orders => orders.forEach(order => order.expectedDate = this.getExpectedDeliveryDate(order.datePlaced, order.status).toDateString()))
     );
   }
 
@@ -29,7 +29,7 @@ export class AdminOrdersComponent implements OnInit {
   toDate(date) {
    return new Date(date);
   }
-  getExpectedDeliveryDate(date) {
+  getExpectedDeliveryDate(date, status) {
     const days = Math.random() * 3 + 1;
     const expected = new Date(date);
     expected.setDate(expected.getDate() + days);
@@ -49,7 +49,7 @@ export class AdminOrdersComponent implements OnInit {
   editOrder(id: string) {
     this.orderService.editOrder(id).subscribe(res => {
       this.orders$ = this.orderService.getAllOrders().pipe(
-        tap(orders => orders.forEach(order => order.expectedDate = this.getExpectedDeliveryDate(order.datePlaced).toDateString()))
+        tap(orders => orders.forEach(order => order.expectedDate = this.getExpectedDeliveryDate(order.datePlaced, order.status).toDateString()))
       );
     });
   }
