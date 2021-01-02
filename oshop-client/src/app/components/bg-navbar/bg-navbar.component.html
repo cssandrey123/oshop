@@ -31,7 +31,7 @@
                </div>
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" [routerLink]="['my','orders']">My orders</a>
+              <a *ngIf="(user$ | async) && (user$ | async).role === 'DEFAULT'" class="dropdown-item" [routerLink]="['my','orders']">My orders</a>
               <ng-container *ngIf="isAuthenticated()">
                 <div *ngIf="(user$ | async)  && (user$ | async).role === 'ADMIN'">
                 <a class="dropdown-item" [routerLink]="['admin','orders']">Manage Orders</a>

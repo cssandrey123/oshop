@@ -47,7 +47,6 @@ export class AdminOrdersComponent implements OnInit {
   }
 
   editOrder(id: string) {
-    console.warn(id);
     this.orderService.editOrder(id).subscribe(res => {
       this.orders$ = this.orderService.getAllOrders().pipe(
         tap(orders => orders.forEach(order => order.expectedDate = this.getExpectedDeliveryDate(order.datePlaced).toDateString()))
