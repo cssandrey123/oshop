@@ -12,6 +12,7 @@ export class Item {
   totalPrice: number;
 }
 export class Order {
+    id: string;
     shippingAddress: string;
     shippingName: string;
     shippingCity: string;
@@ -20,6 +21,8 @@ export class Order {
     userId: string;
     datePlaced: string;
     items: Item[];
+    status = 'PROCESSED';
+    expectedDate: string;
 
     constructor() {}
     createOrder(id: string, name: string, shipping: Shipping, shoppingCart: ShoppingCart) {

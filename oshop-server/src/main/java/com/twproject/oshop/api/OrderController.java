@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -45,18 +42,15 @@ public class OrderController {
 
     @PostMapping("/place-order")
     public ResponseEntity placeOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) {
-        System.out.println(orderDTO.getDatePlaced());
-        System.out.println(orderDTO.getUsername());
-        orderDTO.getItems().forEach(item -> System.out.println(item.getProductTitle()));
         Long userId = this.userService.getIdByUsername(orderDTO.getUsername());
         Order order = new Order();
         order.setPlacedDate(orderDTO.getDatePlaced());
-        System.out.println(order.getPlacedDate());
         order.setUserId(userId);
         order.setPhoneNumber(orderDTO.getPhoneNumber());
         order.setShippingAddress(orderDTO.getShippingAddress());
         order.setShippingName(orderDTO.getShippingName());
         order.setShippingCity(orderDTO.getShippingCity());
+        order.setStatus(Status.PROCESSED);
         Order createdOrder = orderService.createOrder(order);
         orderDTO.getItems().forEach(item -> {
             ShoppingCartItem cartItem = new ShoppingCartItem();
@@ -84,8 +78,10 @@ public class OrderController {
             List<OrderDTO> orderDTOS = new ArrayList<>();
             orders.forEach(order -> {
                 OrderDTO o = new OrderDTO();
+                o.setId(order.getId());
                 o.setShippingName(order.getShippingName());
                 o.setDatePlaced(order.getPlacedDate());
+                o.setStatus(order.getStatus());
                 o.setPhoneNumber(order.getPhoneNumber());
                 o.setShippingCity(order.getShippingCity());
                 o.setShippingAddress(order.getShippingAddress());
@@ -104,5 +100,43 @@ public class OrderController {
                 orderDTOS.add(o);
             });
             return new ResponseEntity<List<OrderDTO>>(orderDTOS, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-order/{orderId}")
+    public ResponseEntity markOrder(@PathVariable Long orderId, Authentication authentication) {
+        if(hasAuthority(authentication, "ADMIN")) {
+            Order foundOrder = orderService.getOrder(orderId);
+            Status status = Status.PROCESSED;
+            if (foundOrder.getStatus().equals(Status.PROCESSED)) {
+                status = Status.DELIVERING;
+            } else if (foundOrder.getStatus().equals(Status.DELIVERING)) {
+                status = Status.DELIVERED;
+            }
+            Order order = orderService.editOrder(status, orderId);
+            OrderDTO o = new OrderDTO();
+            o.setId(order.getId());
+            o.setShippingName(order.getShippingName());
+            o.setDatePlaced(order.getPlacedDate());
+            o.setStatus(order.getStatus());
+            o.setPhoneNumber(order.getPhoneNumber());
+            o.setShippingCity(order.getShippingCity());
+            o.setShippingAddress(order.getShippingAddress());
+            o.setUserId(order.getUserId());
+            o.setUsername(userService.getUser(order.getUserId()).getUsername());
+            List<ShoppingCartItemDTO> itemDTOS = new ArrayList<>();
+            shoppingCartItemService.getAllByOrderId(order.getId()).forEach(item -> {
+                ShoppingCartItemDTO itemDTO = new ShoppingCartItemDTO();
+                itemDTO.setProductTitle(productService.getProduct(item.getProductId()).getTitle());
+                itemDTO.setProductPrice(productService.getProduct(item.getProductId()).getPrice());
+                itemDTO.setQuantity(item.getQuantity());
+                itemDTO.setTotalPrice(itemDTO.getQuantity() * itemDTO.getProductPrice());
+                itemDTOS.add(itemDTO);
+            });
+            o.setItems(itemDTOS);
+            o.setStatus(order.getStatus());
+            return new ResponseEntity<OrderDTO>(o, HttpStatus.OK);
+        } else {
+            throw new NotAllowedException();
+        }
     }
 }

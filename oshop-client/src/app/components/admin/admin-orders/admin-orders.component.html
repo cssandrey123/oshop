@@ -8,6 +8,9 @@
         <th scope="col">Date</th>
         <th scope="col">Items</th>
         <th scope="col">Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+        <th scope="col">Expected delivery date</th>
       </tr>
     </thead>
     <tbody>
@@ -19,6 +22,9 @@
           <div *ngFor="let item of order.items">{{item.productTitle}} x{{item.quantity}}</div>
         </td>
         <td>{{calculateTotalPrice(order.items)}}$</td>
+        <td>{{order.status}}</td>
+        <td><button *ngIf="order.status && order.status !== 'DELIVERED'" class="btn btn-primary btn-sm" (click)="editOrder(order.id)">Mark as {{getNextStatusString(order.status)}}</button> </td>
+        <td>{{order.expectedDate}}</td>
       </tr>
     </tbody>
   </table>

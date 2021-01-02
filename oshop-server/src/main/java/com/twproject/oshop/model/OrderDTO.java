@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO {
+    private Long id;
     private Long userId;
     private String username;
     private Date datePlaced;
@@ -22,4 +23,5 @@ public class OrderDTO {
     private String shippingAddress;
     private String shippingCity;
     private String phoneNumber;
+    private Status status = null;
 }

@@ -23,4 +23,8 @@ export class OrderService {
   getAllOrders(): Observable<Order[]> {
     return this.restService.read<Order[]>('/orders');
   }
+
+  editOrder(orderId: string): Observable<Order> {
+    return this.restService.update<Order>('/update-order/' + orderId, null);
+  }
 }

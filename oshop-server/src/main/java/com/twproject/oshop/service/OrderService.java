@@ -2,6 +2,7 @@ package com.twproject.oshop.service;
 
 import com.twproject.oshop.exceptions.NotFoundException;
 import com.twproject.oshop.model.Order;
+import com.twproject.oshop.model.Status;
 import com.twproject.oshop.persistence.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class OrderService {
         }
         return order.get();
     }
+
     public Order getOrder(Long id) {
         return fetchOrder(id);
     }
@@ -35,6 +37,7 @@ public class OrderService {
         orderRepository.findAll().iterator().forEachRemaining(orders::add);
         return orders;
     }
+
     public List<Order> getOrdersByUserId(Long userId) {
         if (orderRepository.findAllByUserId(userId).isPresent()) {
             return orderRepository.findAllByUserId(userId).get();
@@ -49,5 +52,16 @@ public class OrderService {
 
     public void deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
+    }
+
+    public Order editOrder(Status status, Long orderId) {
+        if (orderRepository.findById(orderId).isPresent()) {
+            Order order = orderRepository.findById(orderId).get();
+            order.setStatus(status);
+            orderRepository.save(order);
+            return order;
+        } else {
+            throw new NotFoundException();
+        }
     }
 }

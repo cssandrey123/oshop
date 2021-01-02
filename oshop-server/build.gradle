@@ -18,6 +18,13 @@ repositories {
 	mavenCentral()
 }
 
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.twproject.oshop.OshopApplication'
+	}
+
+}
+
 dependencies {
 	dependencies {
 		implementation files('C:\\Users\\Mara Sferdian\\Downloads\\spring-security-oauth2-2.3.5.RELEASE.jar')

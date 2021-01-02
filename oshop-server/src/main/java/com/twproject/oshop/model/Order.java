@@ -38,4 +38,7 @@ public class Order {
 
     @Column(name = "PHONE_NR")
     private String phoneNumber;
+
+    @Column(name = "STATUS")
+    private Status status;
 }
