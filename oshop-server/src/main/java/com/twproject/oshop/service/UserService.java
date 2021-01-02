@@ -66,4 +66,9 @@ public class UserService {
         User foundUser=userOptional.get();
         return foundUser.getId();
     }
+
+    public boolean isUsernameTaken(String username) {
+        Optional<User> userOptional=userRepository.findByUsername(username);
+        return userOptional.isPresent();
+    }
 }

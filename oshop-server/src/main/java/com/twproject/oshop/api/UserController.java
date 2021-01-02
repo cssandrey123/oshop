@@ -27,9 +27,8 @@ public class UserController {
 
     @GetMapping("/existsUserByUsername/{username}")
     public ResponseEntity existsUserByUsername(@PathVariable String username) {
-        Long id = userService.getIdByUsername(username);
-         Optional<User> found = Optional.ofNullable(userService.getUser(id));
-         return new ResponseEntity(found.isPresent(), HttpStatus.OK);
+         boolean exists = this.userService.isUsernameTaken(username);
+         return new ResponseEntity(exists, HttpStatus.OK);
     }
 
     @GetMapping("/user")
