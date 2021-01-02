@@ -22,18 +22,18 @@
           </li>
         </ul>
         <ul class="navbar-nav">
-          <li ngbDropdown *ngIf="isAuthenticated(); else userLogin" class="nav-item dropdown">
+          <li ngbDropdown *ngIf="currentUser; else userLogin" class="nav-item dropdown">
             <a ngbDropdownToggle  class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <div *ngIf="isAuthenticated()">
-                 <span *ngIf="(user$ | async)">
-                   {{(user$ | async).username}}
+                 <span *ngIf="currentUser">
+                   {{currentUser.username}}
                  </span>
                </div>
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a *ngIf="(user$ | async) && (user$ | async).role === 'DEFAULT'" class="dropdown-item" [routerLink]="['my','orders']">My orders</a>
               <ng-container *ngIf="isAuthenticated()">
-                <div *ngIf="(user$ | async)  && (user$ | async).role === 'ADMIN'">
+                <div *ngIf="currentUser  && currentUser.role === 'ADMIN'">
                 <a class="dropdown-item" [routerLink]="['admin','orders']">Manage Orders</a>
                 <a class="dropdown-item" [routerLink]="['admin','products']">Manage Products</a>
                 </div>
