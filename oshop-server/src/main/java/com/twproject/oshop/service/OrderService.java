@@ -18,6 +18,13 @@ public class OrderService {
     @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+        List<Order> ordersToDelete = new ArrayList<>();
+        orderRepository.findAll().forEach(order -> {
+            if (order.getStatus() == null) {
+                ordersToDelete.add(order);
+            }
+        });
+        ordersToDelete.forEach(order -> orderRepository.delete(order));
     }
 
     private Order fetchOrder(Long id) {

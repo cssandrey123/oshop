@@ -27,7 +27,7 @@ jar {
 
 dependencies {
 	dependencies {
-		implementation files('/Users/andreiispas/Desktop/spring-security-oauth2-2.3.5.RELEASE.jar')
+		implementation files('C:/Users/Mara Sferdian/Downloads/spring-security-oauth2-2.3.5.RELEASE.jar')
 	}
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '2.3.3.RELEASE'
 	compile 'org.springframework.boot:spring-boot-autoconfigure:2.2.6.RELEASE'

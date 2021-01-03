@@ -73,9 +73,11 @@ export class ProductFormComponent implements OnInit {
   fromURLToHex(url) {
 
     let result = '';
-    for (let i = 0; i < url.length; i++) {
-      const hex = url.charCodeAt(i).toString(16);
-      result += hex;
+    if (url) {
+      for (let i = 0; i < url.length; i++) {
+        const hex = url.charCodeAt(i).toString(16);
+        result += hex;
+      }
     }
     return result;
   }

@@ -22,7 +22,7 @@
           </li>
         </ul>
         <ul class="navbar-nav">
-          <li ngbDropdown *ngIf="currentUser; else userLogin" class="nav-item dropdown">
+          <li ngbDropdown *ngIf="currentUser && isAuthenticated(); else userLogin" class="nav-item dropdown">
             <a ngbDropdownToggle  class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <span *ngIf="isAuthenticated() && currentUser">
                  {{currentUser.username}}
