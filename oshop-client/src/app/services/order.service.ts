@@ -11,14 +11,8 @@ import {Observable} from "rxjs";
 })
 export class OrderService {
 
-  constructor(private db: AngularFireDatabase, private shoppingCartService: ShoppingCartService, private restService: RestService) { }
+  constructor(private shoppingCartService: ShoppingCartService, private restService: RestService) { }
 
-  async placeOrder(order) {
-    let result = await this.db.list('/orders').push(order);
-    this.shoppingCartService.clearCart();
-
-    return result;
-  }
 
   getAllOrders(): Observable<Order[]> {
     return this.restService.read<Order[]>('/orders');

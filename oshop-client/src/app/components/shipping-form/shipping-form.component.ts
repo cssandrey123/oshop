@@ -38,7 +38,6 @@ export class ShippingFormComponent implements OnInit {
 
   async saveOrder(shipping) {
     const order = new Order();
-    console.warn(order);
     this.userService.getCurrentUser().subscribe(user => {
       order.createOrder(user.id, user.username, this.shipping, this.cart);
       this.restService.create<Order>('/place-order', order).subscribe(res => {
