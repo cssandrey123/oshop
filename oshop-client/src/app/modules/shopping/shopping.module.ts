@@ -17,6 +17,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {RecomandedProductsComponent} from "../../components/recomanded-products/recomanded-products.component";
+import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -29,10 +31,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ProductFilterComponent,
     ShoppingCartSummaryComponent,
     ShippingFormComponent,
+    RecomandedProductsComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
-    MatInputModule, 
+    MatInputModule,
     BrowserModule,
     MatSortModule,
     MatTableModule,
@@ -40,12 +43,13 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     CommonModule,
     FormsModule,
     RouterModule.forChild([
-      { path: 'products', component: ProductsComponent },
-      { path: 'shopping-cart', component: ShoppingCartComponent },
-      { path: 'check-out', component: CheckOutComponent,canActivate: [AuthGuardService] },
-      { path: 'my/orders', component: MyOrdersComponent,canActivate: [AuthGuardService] },
-      { path: 'order-success/:id', component: OrderSuccessComponent,canActivate: [AuthGuardService] },
-    ])
+      {path: 'products', component: ProductsComponent},
+      {path: 'shopping-cart', component: ShoppingCartComponent},
+      {path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
+      {path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuardService]},
+      {path: 'order-success/:id', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
+    ]),
+    NgbCarouselModule
   ],
   exports: [
 

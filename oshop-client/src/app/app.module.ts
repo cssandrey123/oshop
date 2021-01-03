@@ -23,40 +23,44 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RestService} from "./services/rest.service";
 import {HttpClientModule} from "@angular/common/http";
+import { RecomandedProductsComponent } from './components/recomanded-products/recomanded-products.component';
 
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    SharedModule,
-    MatProgressSpinnerModule,
-    AdminModule,
-    ShoppingModule,
-    CoreModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatInputModule,
-    BrowserModule,
-    MatSortModule,
-    MatTableModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    NgbModule,
-    HttpClientModule,
-    RouterModule.forRoot([
-      { path: '', component: ProductsComponent },
-      { path: 'login', component: LoginComponent},
-    ]),
-    BrowserAnimationsModule,
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        SharedModule,
+        MatProgressSpinnerModule,
+        AdminModule,
+        ShoppingModule,
+        CoreModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatInputModule,
+        BrowserModule,
+        MatSortModule,
+        MatTableModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule,
+        AngularFireAuthModule,
+        NgbModule,
+        HttpClientModule,
+        RouterModule.forRoot([
+            {path: '', component: ProductsComponent},
+            {path: 'login', component: LoginComponent},
+        ]),
+        BrowserAnimationsModule,
 
-  ],
-  providers: [
-    AuthGuardService, RestService
-  ],
-  bootstrap: [AppComponent]
+    ],
+    providers: [
+        AuthGuardService, RestService
+    ],
+    exports: [
+
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

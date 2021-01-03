@@ -1,0 +1,16 @@
+<div class="carousel-wrapper">
+  <ngb-carousel *ngIf="recomandedProducts && recomandedProducts.length > 0">
+    <ng-container *ngFor="let splittedProducts of recomandedProducts">
+      <ng-template ngbSlide>
+        <div class="wrapper">
+          <div class="row">
+            <div class="col-md-3" *ngFor="let product of splittedProducts">
+              <app-product-card [product]="product" [shopping-cart]="shoppingCart"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ngb-carousel>
+</div>
+

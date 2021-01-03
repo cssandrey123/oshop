@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { map, switchMap } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Product } from '../models/product';
 import * as firebase from 'firebase'
 
@@ -32,7 +31,7 @@ export class ProductService {
       })
     })
   }
-  getAll(){    
+  getAll(){
     return this.db.list('/products').snapshotChanges()
     .pipe(map( action => action
       .map(a => {
@@ -42,7 +41,7 @@ export class ProductService {
       })));
   }
   getProduct(productId){
-    
+
     return this.db.object('/products/' + productId).snapshotChanges()
     .pipe(
       map(product => {

@@ -19,12 +19,12 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-       /* User admin = new User();
-        admin.setUsername("adminAcc");
-        admin.setEmail("admin@admin");
-        admin.setRole("ADMIN");
-        admin.setPassword(new CustomPasswordEncoder().encode("admin123"));
-        userRepository.save(admin);*/
+//        User admin = new User();
+//        admin.setUsername("adminAcc");
+//        admin.setEmail("admin@admin");
+//        admin.setRole("ADMIN");
+//        admin.setPassword(new CustomPasswordEncoder().encode("admin123"));
+//        userRepository.save(admin);
     }
 
 

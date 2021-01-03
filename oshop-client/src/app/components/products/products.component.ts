@@ -17,6 +17,7 @@ import {ProductNew} from "../../models/product-new.model";
 export class ProductsComponent implements OnInit{
   products: ProductNew[]=[];
   filteredProducts: ProductNew[];
+  recomandedProducts: ProductNew[][] = [];
   category: string;
   shoppingCart$: Observable<ShoppingCart>;
 
@@ -42,6 +43,25 @@ export class ProductsComponent implements OnInit{
     this.products;
   }
 
+  private createRecomandedProducts(products: ProductNew[]):ProductNew[][]  {
+    let splitter: number = 4;
+    let splitedProducts = [];
+
+    if(!products || products.length == 0) {
+      return [];
+    }
+
+    for(let index = 0; index < products.length; index += splitter) {
+      //If is not a multiple of splitter, dont push last items, we don't want gaps
+      if(products[index+splitter]) {
+        splitedProducts.push(products.slice(index, index+splitter));
+
+      }
+    }
+
+    return splitedProducts;
+  }
+
   private populateProducts(){
    /* this.productService.getAll().pipe(
       switchMap(products => {
@@ -57,6 +77,7 @@ export class ProductsComponent implements OnInit{
    this.productsHttpService.getAllProducts().pipe(
      switchMap(products => {
        this.products = products;
+       this.recomandedProducts = this.createRecomandedProducts(products);
        return this.route.queryParamMap;
      }))
      .subscribe(params =>  { this.category = params.get('category');

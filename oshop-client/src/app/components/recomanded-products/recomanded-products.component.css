@@ -1,0 +1,10 @@
+.carousel-wrapper {
+  border: 5px solid #c1d62e;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+::ng-deep  .card {
+    height: 100%;
+  }
+

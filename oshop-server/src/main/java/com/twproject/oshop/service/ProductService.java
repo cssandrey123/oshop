@@ -21,37 +21,37 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-       /* productRepository.deleteAll();
-        Product spinach = new Product();
-        spinach.setPrice(4);
-        spinach.setTitle("Spinach");
-        spinach.setCategory("Vegetables");
-        spinach.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://www.publicdomainpictures.net/pictures/170000/velka/spinach-leaves-1461774375kTU.jpg" .getBytes(StandardCharsets.UTF_8))));
-        productRepository.save(spinach);
-        Product avocado = new Product();
-        avocado.setPrice(5);
-        avocado.setTitle("Avocado");
-        avocado.setCategory("Vegetables");
-        avocado.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://poise.ro/wp-content/uploads/2018/07/4.58-culturadeavocado@poise-1.0-720x668.jpg" .getBytes(StandardCharsets.UTF_8))));
-        productRepository.save(avocado);
-        Product bread = new Product();
-        bread.setCategory("Bread");
-        bread.setTitle("Freshly Baked Bread");
-        bread.setPrice(3);
-        bread.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://static.pexels.com/photos/2434/bread-food-healthy-breakfast.jpg" .getBytes(StandardCharsets.UTF_8))));
-        productRepository.save(bread);
-        Product turmeric = new Product();
-        turmeric.setTitle("Ground Turmeric");
-        turmeric.setPrice(0.75);
-        turmeric.setCategory("Seasonings");
-        turmeric.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://www.maxpixel.net/static/photo/1x/Seasoning-Powder-Curry-Spice-Ingredient-Turmeric-2344157.jpg" .getBytes(StandardCharsets.UTF_8))));
-        productRepository.save(turmeric);
-        Product banana = new Product();
-        banana.setCategory("Fruits");
-        banana.setPrice(1.25);
-        banana.setTitle("Banana");
-        banana.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bananas.jpg/1024px-Bananas.jpg" .getBytes(StandardCharsets.UTF_8))));
-        productRepository.save(banana);*/
+//       productRepository.deleteAll();
+//        Product spinach = new Product();
+//        spinach.setPrice(4);
+//        spinach.setTitle("Spinach");
+//        spinach.setCategory("Vegetables");
+//        spinach.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://www.publicdomainpictures.net/pictures/170000/velka/spinach-leaves-1461774375kTU.jpg" .getBytes(StandardCharsets.UTF_8))));
+//        productRepository.save(spinach);
+//        Product avocado = new Product();
+//        avocado.setPrice(5);
+//        avocado.setTitle("Avocado");
+//        avocado.setCategory("Vegetables");
+//        avocado.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://poise.ro/wp-content/uploads/2018/07/4.58-culturadeavocado@poise-1.0-720x668.jpg" .getBytes(StandardCharsets.UTF_8))));
+//        productRepository.save(avocado);
+//        Product bread = new Product();
+//        bread.setCategory("Bread");
+//        bread.setTitle("Freshly Baked Bread");
+//        bread.setPrice(3);
+//        bread.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://static.pexels.com/photos/2434/bread-food-healthy-breakfast.jpg" .getBytes(StandardCharsets.UTF_8))));
+//        productRepository.save(bread);
+//        Product turmeric = new Product();
+//        turmeric.setTitle("Ground Turmeric");
+//        turmeric.setPrice(0.75);
+//        turmeric.setCategory("Seasonings");
+//        turmeric.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://www.maxpixel.net/static/photo/1x/Seasoning-Powder-Curry-Spice-Ingredient-Turmeric-2344157.jpg" .getBytes(StandardCharsets.UTF_8))));
+//        productRepository.save(turmeric);
+//        Product banana = new Product();
+//        banana.setCategory("Fruits");
+//        banana.setPrice(1.25);
+//        banana.setTitle("Banana");
+//        banana.setImageUrlInHex(String.format("%040x", new BigInteger(1,"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bananas.jpg/1024px-Bananas.jpg" .getBytes(StandardCharsets.UTF_8))));
+//        productRepository.save(banana);
     }
 
     private Product fetchProduct(Long id) {
