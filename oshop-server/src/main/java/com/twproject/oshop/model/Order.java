@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,4 +26,19 @@ public class Order {
 
     @Column(name = "PLACED_DATE")
     private Date placedDate;
+
+    @Column(name = "SHIPPING_NAME")
+    private String shippingName;
+
+    @Column(name = "SHIPPING_ADDRESS")
+    private String shippingAddress;
+
+    @Column(name = "SHIPPING_CITY")
+    private String shippingCity;
+
+    @Column(name = "PHONE_NR")
+    private String phoneNumber;
+
+    @Column(name = "STATUS")
+    private Status status;
 }

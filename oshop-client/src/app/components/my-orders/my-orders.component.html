@@ -1,18 +1,29 @@
-<h1>All orders</h1>
+<h1>My orders</h1>
 
 <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Customer</th>
-        <th scope="col">Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of orders$ | async;let i = index">
-        <th scope="row">{{i+1}}</th>
-        <td>{{order.shipping.name}}</td>
-        <td>{{order.datePlaced}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Shipping Name</th>
+    <th scope="col">Date</th>
+    <th scope="col">Items</th>
+    <th scope="col">Price</th>
+    <th scope="col">Status</th>
+    <th scope="col">Expected delivery date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders$ | async;let i = index">
+    <th scope="row">{{i+1}}</th>
+    <td><span style="font-weight: 500">{{order.shippingName}}</span></td>
+    <td>{{toDate(order.datePlaced).toDateString()}}</td>
+    <td>
+      <div *ngFor="let item of order.items">{{item.productTitle}} x {{item.quantity}}</div>
+    </td>
+    <td>{{calculateTotalPrice(order.items)}}$</td>
+    <td>{{order.status}}</td>
+    <td><span *ngIf="order.status !== 'DELIVERED'">{{order.expectedDate}}</span></td>
+  </tr>
+  </tbody>
+</table>
+

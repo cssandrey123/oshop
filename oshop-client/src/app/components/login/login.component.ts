@@ -8,6 +8,7 @@ import {map, mergeMap, tap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {UserService} from "../../services/user.service";
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import {UserService} from "../../services/user.service";
 export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService,
+              private cookieService: CookieService,
               private fb: FormBuilder, private restService: RestService, private router: Router, private route: ActivatedRoute, private http: HttpClient, private userService: UserService) {
   }
 
@@ -87,10 +89,10 @@ export class LoginComponent implements OnInit {
            return of(this.userWithGoogleSignIn);
          }
       }),
-      mergeMap(() => this.auth.loginWithCredentials(this.userWithGoogleSignIn.username, this.userWithGoogleSignIn.password)),
-    ).subscribe(res => {
-      this.router.navigate(['./']);
-      this.userService.setUser();
+      tap(() => this.cookieService.delete('access-token')),
+      mergeMap(() => this.restService.loginWithCredentials(this.userWithGoogleSignIn.username, this.userWithGoogleSignIn.password)),)
+      .subscribe(res => {
+        this.router.navigate(['./']);
     });
 
   }
@@ -118,7 +120,6 @@ export class LoginComponent implements OnInit {
       this.loading = false;
       console.log(result);
       this.router.navigate(['./']);
-      this.userService.setUser();
     }, error => {
       this.loading = false;
       //  TODO handle login errors here
@@ -134,11 +135,10 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     this.restService.register('/register', user).pipe(
-      mergeMap(() => this.auth.loginWithCredentials(user.username, user.password))
+      mergeMap(() => this.restService.loginWithCredentials(user.username, user.password))
     ).subscribe(result => {
       this.loading = false;
       console.log(result);
-      this.userService.setUser();
       this.router.navigate(['./']);
     }, error => {
       this.loading = false;

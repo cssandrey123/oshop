@@ -18,6 +18,13 @@ repositories {
 	mavenCentral()
 }
 
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.twproject.oshop.OshopApplication'
+	}
+
+}
+
 dependencies {
 	dependencies {
 		implementation files('/Users/andreiispas/Desktop/spring-security-oauth2-2.3.5.RELEASE.jar')
@@ -45,6 +52,3 @@ dependencies {
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
 }
 
-test {
-	useJUnitPlatform()
-}

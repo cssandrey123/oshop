@@ -89,4 +89,13 @@ public class ProductService {
     public void deleteProduct(Long productId) {
        productRepository.deleteById(productId);
     }
+
+    public Product getProductByTitle(String title) {
+        Optional<Product> product = this.productRepository.findByTitle(title);
+        if (product.isPresent()) {
+            return product.get();
+        } else {
+            throw new NotFoundException();
+        }
+    }
 }

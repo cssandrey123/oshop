@@ -55,11 +55,12 @@ export class RestService {
       {headers: this.loginHeaders}).pipe(
       tap(o => {
         this.cookieService.set('accessToken', o.access_token, o.expires_in);
+        console.warn(this.cookieService.check('accessToken'));
       })
     );
   }
   public loginWithGoogle() {
-    window.open(this.authorizationEndpoint, '_self');
+    window.open(this.authorizationEndpoint, '_top');
   }
   public fetchToken(code, state): Observable<any> {
     if (code && state) {
@@ -74,8 +75,8 @@ export class RestService {
       return of(null);
     }
   }
-  public logout(): Observable<any> {
-    return of(this.cookieService.delete('accessToken'));
+  public logout() {
+    this.cookieService.delete('accessToken');
   }
 
 

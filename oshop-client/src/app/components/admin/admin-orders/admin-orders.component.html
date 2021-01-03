@@ -4,21 +4,27 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Costumer</th>
+        <th scope="col">Customer</th>
         <th scope="col">Date</th>
         <th scope="col">Items</th>
         <th scope="col">Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+        <th scope="col">Expected delivery date</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let order of orders$ | async;let i = index">
         <th scope="row">{{i+1}}</th>
-        <td><span style="font-weight: 500">{{order.shipping.name}}</span></td>
-        <td>{{order.datePlaced}}</td>
+        <td><span style="font-weight: 500">{{order.shippingName}}</span></td>
+        <td>{{toDate(order.datePlaced).toDateString()}}</td>
         <td>
-          <div *ngFor="let item of order.items">{{item.product.title}} x{{item.quantity}}</div>
+          <div *ngFor="let item of order.items">{{item.productTitle}} x{{item.quantity}}</div>
         </td>
         <td>{{calculateTotalPrice(order.items)}}$</td>
+        <td>{{order.status}}</td>
+        <td><button *ngIf="order.status && order.status !== 'DELIVERED'" class="btn btn-primary btn-sm" (click)="editOrder(order.id)">Mark as {{getNextStatusString(order.status)}}</button> </td>
+        <td><span *ngIf="order.status !== 'DELIVERED'"> {{order.expectedDate}}</span></td>
       </tr>
     </tbody>
   </table>
