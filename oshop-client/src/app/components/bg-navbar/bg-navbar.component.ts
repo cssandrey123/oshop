@@ -19,7 +19,7 @@ export class BgNavbarComponent implements OnInit {
   public isMenuCollapsed = true;
   cart$: Observable<ShoppingCart>;
   currentUser: User;
-  user$: Observable<User> = this.userService.user$;
+  user$: Observable<User> = this.userService.user$.asObservable();
   constructor(private auth: AuthService, private shoppingCartService: ShoppingCartService, private restService: RestService, private userService: UserService) { }
 
 
@@ -28,12 +28,6 @@ export class BgNavbarComponent implements OnInit {
     this.cart$ = this.shoppingCartService.getCart();
     this.user$.subscribe(user => this.currentUser = user);
   }
-
-
-  async isCurrentUserPresent() {
-   return this.userService.currentUser !== null;
-  }
-
 
   isAuthenticated() {
    return this.restService.isAuthenticated();

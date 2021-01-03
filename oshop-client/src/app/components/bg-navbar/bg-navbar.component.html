@@ -24,11 +24,9 @@
         <ul class="navbar-nav">
           <li ngbDropdown *ngIf="currentUser; else userLogin" class="nav-item dropdown">
             <a ngbDropdownToggle  class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <div *ngIf="isAuthenticated()">
-                 <span *ngIf="currentUser">
-                   {{currentUser.username}}
-                 </span>
-               </div>
+               <span *ngIf="isAuthenticated() && currentUser">
+                 {{currentUser.username}}
+               </span>
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a *ngIf="(user$ | async) && (user$ | async).role === 'DEFAULT'" class="dropdown-item" [routerLink]="['my','orders']">My orders</a>
